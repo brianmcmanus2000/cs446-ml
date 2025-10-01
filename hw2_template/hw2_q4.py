@@ -111,7 +111,13 @@ class LogisticRegression:
     def _sigmoid(self, z):
         #TODO: (1a) Implement sigmoid function
         # Hint: The sigmoid function is defined as 1 / (1 + e^(-z)).
-        pass
+        out = np.empty_like(z, dtype=float)
+        pos = (z >= 0)
+        neg = ~pos
+        out[pos] = 1.0 / (1.0 + np.exp(-z[pos]))
+        ez = np.exp(z[neg])
+        out[neg] = ez / (1.0 + ez)
+        return out
 
     def transform(self, X):
         """b. Create new features by non-linear transforms (e.g. squares)"""
@@ -123,7 +129,12 @@ class LogisticRegression:
         # Hint: X1 is the first column of X (X[:, 0]) and X2 is the second (X[:, 1]).
         # Create the new feature columns and then stack them horizontally with the original X.
         # The final returned array should have 5 columns.
-        pass
+        X1 = X[:, 0:1]
+        X2 = X[:, 1:1+1]
+        X1_sq = X1**2
+        X2_sq = X2**2
+        X1X2  = X1 * X2
+        return np.hstack([X1, X2, X1_sq, X2_sq, X1X2])
 
     def _compute_cost(self, y, y_pred):
         m = len(y)
@@ -131,17 +142,20 @@ class LogisticRegression:
         # Hint: Implement the binary cross-entropy (log loss) cost function.
         # Formula: J = -(1/m) * Σ [y*log(y_pred) + (1-y)*log(1-y_pred)]
         # Be careful about taking the log of 0.
-        cost = 0
+        y = y.reshape(-1, 1)
+        y_pred = y_pred.reshape(-1, 1)
 
-        # Add regularization term
-        reg_cost = 0
+        m = y.shape[0]
+        eps = 1e-15
+        p = np.clip(y_pred, eps, 1 - eps)
+        cost = -(1.0/m) * np.sum(y*np.log(p) + (1 - y)*np.log(1 - p))
+
+        reg_cost = 0.0
         if self.regularization == 'L2':
             #TODO: (2a) implement L2 Regularization
-            pass
+            reg_cost = (self.lambda_val / (2.0*m)) * np.sum(self.weights**2)
         elif self.regularization == 'L1':
-            #TODO: (2b) implement L1 Regularization
-            pass
-
+            reg_cost = (self.lambda_val / m) * np.sum(np.abs(self.weights))
         return cost + reg_cost
 
     def fit(self, X, y):
@@ -177,8 +191,20 @@ class LogisticRegression:
 
             # Update weights and bias
             # TODO: (1a) update weights and bias
-            self.weights -= 0
-            self.bias -= 0
+            y = y.reshape(-1, 1)
+            error = (y_pred - y)                 # (m,1)
+            dw = (1.0/n_samples) * (X.T @ error) # (n_features,1)
+            db = (1.0/n_samples) * np.sum(error) # scalar
+
+            # Regularization on gradient (already in your scaffold)
+            if self.regularization == 'L2':
+                dw += (self.lambda_val / n_samples) * self.weights
+            elif self.regularization == 'L1':
+                dw += (self.lambda_val / n_samples) * np.sign(self.weights)
+
+            # Update
+            self.weights -= self.learning_rate * dw
+            self.bias    -= self.learning_rate * db
 
             if i % 1000 == 0:
                 print(f"Cost after iteration {i}: {cost:.4f}")
@@ -278,8 +304,8 @@ We will search for the best learning_rate (alpha) and regularization strength (l
 """
 
 #TODO: (3) define a list of at least 3 learning rates and at least 3 lambda values you want to validate
-learning_rates = []
-lambda_values = []
+learning_rates = [0.01, 0.05, 0.1]
+lambda_values = [0.0, 0.01, 0.1, 1.0]
 best_accuracy = 0
 best_params = {}
 best_model = None
@@ -349,17 +375,20 @@ def run_gd_variant(optimizer='batch', batch_size=32, n_epochs=100):
         for i in range(0, n_samples, batch_size if optimizer != 'stochastic' else 1):
             # TODO: (4) fix X_batch and y_batch below for each of these three cases
             if optimizer == 'stochastic':
-                 # Hint: For SGD, the batch size is 1. Slice a single sample (row
-                 X_batch = None
-                 y_batch = None
+                X_batch = X_shuffled[i:i+1, :]
+                y_batch = y_shuffled[i:i+1]
             elif optimizer == 'mini-batch':
-                 # Hint: For Mini-batch GD, slice a chunk of `batch_size` samples
-                 X_batch = None
-                 y_batch = None
-            else: # batch
-                 # Hint: For Batch GD, the "batch" is the entire training set.
-                 X_batch = None
-                 y_batch = None
+                start = i
+                end = min(i + batch_size, n_samples)
+                X_batch = X_shuffled[start:end, :]
+                y_batch = y_shuffled[start:end]
+            else:
+                if i == 0:
+                    X_batch = X_shuffled
+                    y_batch = y_shuffled
+                else:
+                    X_batch = X_shuffled[0:0, :]
+                    y_batch = y_shuffled[0:0]
 
             m_batch = len(y_batch)
             if m_batch == 0: continue

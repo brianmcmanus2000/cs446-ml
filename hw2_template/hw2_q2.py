@@ -3,7 +3,7 @@ import hw2_utils as utils
 import matplotlib.pyplot as plt
 import sklearn.datasets as datasets
 from sklearn.model_selection import train_test_split
-
+from hw2_utils import gaussian_dataset
 
 
 def gaussian_theta(X, y):
@@ -25,16 +25,14 @@ def gaussian_theta(X, y):
     var_list = []
     for cls in (0, 1):
         mask = (y == cls)
-        Xc = X[mask]                     # shape: (n_cls, d)
-        # Assumption given: every class appears at least once, so Xc is non-empty
-        mu_c = Xc.mean(dim=0)            # (d,)
-        # MLE variance uses denominator n (not n-1) → unbiased=False
-        var_c = Xc.var(dim=0, unbiased=False)  # (d,)
+        Xc = X[mask]
+        mu_c = Xc.mean(dim=0)
+        var_c = Xc.var(dim=0, unbiased=False)
         mu_list.append(mu_c)
         var_list.append(var_c)
 
-    mu = torch.stack(mu_list, dim=0).to(device)        # (2, d)
-    sigma2 = torch.stack(var_list, dim=0).to(device)   # (2, d)
+    mu = torch.stack(mu_list, dim=0).to(device)
+    sigma2 = torch.stack(var_list, dim=0).to(device)
     return mu, sigma2
 
 def gaussian_p(y):
@@ -49,7 +47,7 @@ def gaussian_p(y):
     y = y.view(-1).long()
     N = y.numel()
     p0 = (y == 0).sum().to(dtype=torch.float32) / float(N)
-    return p0  # shape: (), dtype float32
+    return p0 
 
 def gaussian_classify(mu,sigma2, p, X):
     '''
@@ -67,7 +65,6 @@ def gaussian_classify(mu,sigma2, p, X):
     mu = mu.float()
     sigma2 = sigma2.float()
 
-    # Clamp variance and prior to avoid log(0) / division by 0
     eps = 1e-9
     sigma2 = sigma2.clamp_min(eps)
 
@@ -77,17 +74,13 @@ def gaussian_classify(mu,sigma2, p, X):
         p = p.to(dtype=X.dtype, device=X.device)
     p = p.clamp(eps, 1 - eps)
 
-    # log priors: [log P(Y=0), log P(Y=1)]
-    log_prior = torch.stack([torch.log(p), torch.log1p(-p)])  # shape (2,)
+    log_prior = torch.stack([torch.log(p), torch.log1p(-p)])
+    Xe = X.unsqueeze(1)
+    mu_e = mu.unsqueeze(0)
+    var_e = sigma2.unsqueeze(0)
 
-    # log Gaussian likelihoods per feature:
-    # log N(x | mu, var) = -0.5*log(2π var) - (x-mu)^2 / (2 var)
-    Xe = X.unsqueeze(1)                # (N, 1, d)
-    mu_e = mu.unsqueeze(0)             # (1, 2, d)
-    var_e = sigma2.unsqueeze(0)        # (1, 2, d)
+    loglik = -0.5 * (torch.log(2 * torch.pi * var_e) + (Xe - mu_e) ** 2 / var_e)
+    scores = loglik.sum(dim=2) + log_prior
 
-    loglik = -0.5 * (torch.log(2 * torch.pi * var_e) + (Xe - mu_e) ** 2 / var_e)  # (N, 2, d)
-    scores = loglik.sum(dim=2) + log_prior                                      # (N, 2)
-
-    yhat = scores.argmax(dim=1).long()  # (N,)
+    yhat = scores.argmax(dim=1).long()
     return yhat
