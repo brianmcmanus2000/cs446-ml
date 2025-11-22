@@ -1,0 +1,510 @@
+\documentclass{article}
+    \usepackage[margin=1in]{geometry}
+    \usepackage{hyperref}
+    \usepackage{amsmath,amsfonts,amssymb,amsthm,commath,dsfont}
+    \usepackage{bm}
+    \usepackage{enumitem}
+    \usepackage{framed}
+    \usepackage{xspace}
+    \usepackage{microtype}
+    \usepackage{float}
+    \usepackage[round]{natbib}
+    \usepackage{cleveref}
+    \usepackage[dvipsnames]{xcolor}
+    \usepackage{graphicx}
+    \usepackage{listings}
+    \usepackage[breakable]{tcolorbox}
+    \tcbset{breakable}
+    \usepackage{mathtools}
+    \usepackage{autonum}
+    \usepackage{comment}
+    \usepackage{hyperref}
+    \newcommand{\liangyan}[1]{\textcolor{blue}{[{\bf Liangyan:} #1]}}
+
+    \def\b1{\boldsymbol{1}}
+    \newcommand{\colbar}{\rule[-3mm]{.3mm}{1.5em}}
+    \newcommand{\rowbar}{\rule[.5ex]{1.5em}{.3mm}}
+    \newcommand{\francis}[1]{{\color{blue}#1}}
+    \DeclareMathOperator{\rank}{rank}
+    \def\balpha{\boldsymbol{\alpha}}
+    \newcommand{\yb}[1]{{\color{blue} #1}}
+
+    \def\ddefloop#1{\ifx\ddefloop#1\else\ddef{#1}\expandafter\ddefloop\fi}
+    \def\ddef#1{\expandafter\def\csname bb#1\endcsname{\ensuremath{\mathbb{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+    
+    \def\ddef#1{\expandafter\def\csname c#1\endcsname{\ensuremath{\mathcal{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+    
+    \def\ddef#1{\expandafter\def\csname v#1\endcsname{\ensuremath{\boldsymbol{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\ddefloop
+    
+    \def\ddef#1{\expandafter\def\csname v#1\endcsname{\ensuremath{\boldsymbol{\csname #1\endcsname}}}}
+    \ddefloop {alpha}{beta}{gamma}{delta}{epsilon}{varepsilon}{zeta}{eta}{theta}{vartheta}{iota}{kappa}{lambda}{mu}{nu}{xi}{pi}{varpi}{rho}{varrho}{sigma}{varsigma}{tau}{upsilon}{phi}{varphi}{chi}{psi}{omega}{Gamma}{Delta}{Theta}{Lambda}{Xi}{Pi}{Sigma}{varSigma}{Upsilon}{Phi}{Psi}{Omega}{ell}\ddefloop
+
+    \newcommand\T{{\scriptscriptstyle\mathsf{T}}}
+    \def\diag{\textup{diag}}
+    
+    \DeclareMathOperator*{\argmin}{arg\,min}
+    \DeclareMathOperator*{\argmax}{arg\,max}
+
+    \def\SPAN{\textup{span}}
+    \def\tu{\textup{u}}
+    \def\R{\mathbb{R}}
+    \def\E{\mathbb{E}}
+    \def\Z{\mathbb{Z}}
+    \def\be{\mathbf{e}}
+    \def\nf{\nabla f}
+    \def\veps{\varepsilon}
+    \def\cl{\textup{cl}}
+    \def\inte{\textup{int}}
+    \def\dom{\textup{dom}}
+    \def\Rad{\textup{Rad}}
+    \def\lsq{\ell_{\textup{sq}}}
+    \def\hcR{\widehat{\cR}}
+    \def\hcRl{\hcR_\ell}
+    \def\cRl{\cR_\ell}
+    \def\hcE{\widehat{\cE}}
+    \def\cEl{\cE_\ell}
+    \def\hcEl{\hcE_\ell}
+    \def\eps{\epsilon}
+    \def\1{\mathds{1}}
+    \newcommand{\red}[1]{{\color{red} #1}}
+    \newcommand{\blue}[1]{{\color{blue} #1}}
+    \def\srelu{\sigma_{\textup{r}}}
+    \def\vsrelu{\vec{\sigma_{\textup{r}}}}
+    \def\vol{\textup{vol}}
+
+    \newcommand{\ip}[2]{\left\langle #1, #2 \right \rangle}
+    \newcommand{\mjt}[1]{{\color{blue}\emph\textbf{[M:}~#1~\textbf{]}}}
+    \newcommand{\sahand}[1]{{\color{green}\emph\textbf{[Sah:}~#1~\textbf{]}}}
+
+    \newtheorem{fact}{Fact}
+    \newtheorem{lemma}{Lemma}
+    \newtheorem{claim}{Claim}
+    \newtheorem{proposition}{Proposition}
+    \newtheorem{theorem}{Theorem}
+    \newtheorem{corollary}{Corollary}
+    \newtheorem{condition}{Condition}
+    \theoremstyle{definition}
+    \newtheorem{definition}{Definition}
+    \theoremstyle{remark}
+    \newtheorem{remark}{Remark}
+    \newtheorem{example}{Example}
+    
+    \newcommand{\Ac}{\mathcal{A}}
+    \newcommand{\Bc}{\mathcal{B}}
+    \newcommand{\Cc}{\mathcal{C}}
+    \newcommand{\Dc}{\mathcal{D}}
+    \newcommand{\Ec}{\mathcal{E}}
+    \newcommand{\Fc}{\mathcal{F}}
+    \newcommand{\Gc}{\mathcal{G}}
+    \newcommand{\Hc}{\mathcal{H}}
+    \newcommand{\Ic}{\mathcal{I}}
+    \newcommand{\Jc}{\mathcal{J}}
+    \newcommand{\Kc}{\mathcal{K}}
+    \newcommand{\Lc}{\mathcal{L}}
+    \newcommand{\Mc}{\mathcal{M}}
+    \newcommand{\Nc}{\mathcal{N}}
+    \newcommand{\Oc}{\mathcal{O}}
+    \newcommand{\Pc}{\mathcal{P}}
+    \newcommand{\Qc}{\mathcal{Q}}
+    \newcommand{\Rc}{\mathcal{R}}
+    \newcommand{\Sc}{\mathcal{S}}
+    \newcommand{\Tc}{\mathcal{T}}
+    \newcommand{\Uc}{\mathcal{U}}
+    \newcommand{\Vc}{\mathcal{V}}
+    \newcommand{\Wc}{\mathcal{W}}
+    \newcommand{\Xc}{\mathcal{X}}
+    \newcommand{\Yc}{\mathcal{Y}}
+    \newcommand{\Zc}{\mathcal{Z}}
+    
+    \newcommand{\Ab}{\mathbb{A}}
+    \newcommand{\Bb}{\mathbb{B}}
+    \newcommand{\Cb}{\mathbb{C}}
+    \newcommand{\Db}{\mathbb{D}}
+    \newcommand{\Eb}{\mathbb{E}}
+    \newcommand{\Fb}{\mathbb{F}}
+    \newcommand{\Gb}{\mathbb{G}}
+    \newcommand{\Hb}{\mathbb{H}}
+    \newcommand{\Ib}{\mathbb{I}}
+    \newcommand{\Jb}{\mathbb{J}}
+    \newcommand{\Kb}{\mathbb{K}}
+    \newcommand{\Lb}{\mathbb{L}}
+    \newcommand{\Mb}{\mathbb{M}}
+    \newcommand{\Nb}{\mathbb{N}}
+    \newcommand{\Ob}{\mathbb{O}}
+    \newcommand{\Pb}{\mathbb{P}}
+    \newcommand{\Qb}{\mathbb{Q}}
+    \newcommand{\Rb}{\mathbb{R}}
+    \newcommand{\Sb}{\mathbb{S}}
+    \newcommand{\Tb}{\mathbb{T}}
+    \newcommand{\Ub}{\mathbb{U}}
+    \newcommand{\Vb}{\mathbb{V}}
+    \newcommand{\Wb}{\mathbb{W}}
+    \newcommand{\Xb}{\mathbb{X}}
+    \newcommand{\Yb}{\mathbb{Y}}
+    \newcommand{\Zb}{\mathbb{Z}}
+    
+    \newcommand{\av}{\mathbf{a}}
+    \newcommand{\bv}{\mathbf{b}}
+    \newcommand{\cv}{\mathbf{c}}
+    \newcommand{\dv}{\mathbf{d}}
+    \newcommand{\ev}{\mathbf{e}}
+    \newcommand{\fv}{\mathbf{f}}
+    \newcommand{\gv}{\mathbf{g}}
+    \newcommand{\hv}{\mathbf{h}}
+    \newcommand{\iv}{\mathbf{i}}
+    \newcommand{\jv}{\mathbf{j}}
+    \newcommand{\kv}{\mathbf{k}}
+    \newcommand{\lv}{\mathbf{l}}
+    \newcommand{\mv}{\mathbf{m}}
+    \newcommand{\nv}{\mathbf{n}}
+    \newcommand{\ov}{\mathbf{o}}
+    \newcommand{\pv}{\mathbf{p}}
+    \newcommand{\qv}{\mathbf{q}}
+    \newcommand{\rv}{\mathbf{r}}
+    \newcommand{\sv}{\mathbf{s}}
+    \newcommand{\tv}{\mathbf{t}}
+    \newcommand{\uv}{\mathbf{u}}
+    \newcommand{\wv}{\mathbf{w}}
+    \newcommand{\xv}{\mathbf{x}}
+    \newcommand{\yv}{\mathbf{y}}
+    \newcommand{\zv}{\mathbf{z}}
+    
+    \newcommand{\Av}{\mathbf{A}}
+    \newcommand{\Bv}{\mathbf{B}}
+    \newcommand{\Cv}{\mathbf{C}}
+    \newcommand{\Dv}{\mathbf{D}}
+    \newcommand{\Ev}{\mathbf{E}}
+    \newcommand{\Fv}{\mathbf{F}}
+    \newcommand{\Gv}{\mathbf{G}}
+    \newcommand{\Hv}{\mathbf{H}}
+    \newcommand{\Iv}{\mathbf{I}}
+    \newcommand{\Jv}{\mathbf{J}}
+    \newcommand{\Kv}{\mathbf{K}}
+    \newcommand{\Lv}{\mathbf{L}}
+    \newcommand{\Mv}{\mathbf{M}}
+    \newcommand{\Nv}{\mathbf{N}}
+    \newcommand{\Ov}{\mathbf{O}}
+    \newcommand{\Pv}{\mathbf{P}}
+    \newcommand{\Qv}{\mathbf{Q}}
+    \newcommand{\Rv}{\mathbf{R}}
+    \newcommand{\Sv}{\mathbf{S}}
+    \newcommand{\Tv}{\mathbf{T}}
+    \newcommand{\Uv}{\mathbf{U}}
+    \newcommand{\Vv}{\mathbf{V}}
+    \newcommand{\Wv}{\mathbf{W}}
+    \newcommand{\Xv}{\mathbf{X}}
+    \newcommand{\Yv}{\mathbf{Y}}
+    \newcommand{\Zv}{\mathbf{Z}}
+    
+    \newcommand{\alphav     }{\boldsymbol \alpha     }
+    \newcommand{\betav      }{\boldsymbol \beta      }
+    \newcommand{\gammav     }{\boldsymbol \gamma     }
+    \newcommand{\deltav     }{\boldsymbol \delta     }
+    \newcommand{\epsilonv   }{\boldsymbol \epsilon   }
+    \newcommand{\varepsilonv}{\boldsymbol \varepsilon}
+    \newcommand{\zetav      }{\boldsymbol \zeta      }
+    \newcommand{\etav       }{\boldsymbol \eta       }
+    \newcommand{\thetav     }{\boldsymbol \theta     }
+    \newcommand{\varthetav  }{\boldsymbol \vartheta  }
+    \newcommand{\iotav      }{\boldsymbol \iota      }
+    \newcommand{\kappav     }{\boldsymbol \kappa     }
+    \newcommand{\varkappav  }{\boldsymbol \varkappa  }
+    \newcommand{\lambdav    }{\boldsymbol \lambda    }
+    \newcommand{\muv        }{\boldsymbol \mu        }
+    \newcommand{\nuv        }{\boldsymbol \nu        }
+    \newcommand{\xiv        }{\boldsymbol \xi        }
+    \newcommand{\omicronv   }{\boldsymbol \omicron   }
+    \newcommand{\piv        }{\boldsymbol \pi        }
+    \newcommand{\varpiv     }{\boldsymbol \varpi     }
+    \newcommand{\rhov       }{\boldsymbol \rho       }
+    \newcommand{\varrhov    }{\boldsymbol \varrho    }
+    \newcommand{\sigmav     }{\boldsymbol \sigma     }
+    \newcommand{\varsigmav  }{\boldsymbol \varsigma  }
+    \newcommand{\tauv       }{\boldsymbol \tau       }
+    \newcommand{\upsilonv   }{\boldsymbol \upsilon   }
+    \newcommand{\phiv       }{\boldsymbol \phi       }
+    \newcommand{\varphiv    }{\boldsymbol \varphi    }
+    \newcommand{\chiv       }{\boldsymbol \chi       }
+    \newcommand{\psiv       }{\boldsymbol \psi       }
+    \newcommand{\omegav     }{\boldsymbol \omega     }
+    
+    \newcommand{\Gammav     }{\boldsymbol \Gamma     }
+    \newcommand{\Deltav     }{\boldsymbol \Delta     }
+    \newcommand{\Thetav     }{\boldsymbol \Theta     }
+    \newcommand{\Lambdav    }{\boldsymbol \Lambda    }
+    \newcommand{\Xiv        }{\boldsymbol \Xi        }
+    \newcommand{\Piv        }{\boldsymbol \Pi        }
+    \newcommand{\Sigmav     }{\boldsymbol \Sigma     }
+    \newcommand{\Upsilonv   }{\boldsymbol \Upsilon   }
+    \newcommand{\Phiv       }{\boldsymbol \Phi       }
+    \newcommand{\Psiv       }{\boldsymbol \Psi       }
+    \newcommand{\Omegav     }{\boldsymbol \Omega     }
+
+
+\newenvironment{Q}
+{%
+  \clearpage
+  \item
+}
+
+    \title{CS 446 / ECE 449 --- Homework 3}
+    \author{\emph{your NetID here}}
+    \date{}
+
+\begin{document}
+    \maketitle
+    
+    \noindent\textbf{Instructions.}
+    \begin{itemize}
+      \item
+        Homework is due \textbf{Friday, October 17}, at 11:59 \textbf{PM} CST; you have \textbf{3} late days in total for \textbf{all Homeworks}.
+        
+      \item
+        Everyone must submit individually at gradescope under \texttt{Homework 3} and \texttt{Homework 3 Code}.
+    
+      \item
+        The ``written'' submission at \texttt{Homework 3} \textbf{must be typed}, and submitted in
+        any format gradescope accepts (to be safe, submit a PDF).  You may use \LaTeX, markdown,
+        google docs, MS word, whatever you like; but it must be typed!
+    
+      \item
+        When submitting at \texttt{Homework 3}, gradescope will ask you to \textbf{mark out boxes
+        around each of your answers}; please do this precisely!
+    
+      \item
+        Please make sure your NetID is clear and large on the first page of the homework.
+    
+      \item
+        Your solution \textbf{must} be written in your own words.
+        Please see the course webpage for full \textbf{academic integrity} information.
+        You should cite any external reference you use.
+    
+      \item
+        We reserve the right to reduce the auto-graded score for
+        \texttt{Homework 3 Code} if we detect funny business (e.g., your solution
+        lacks any algorithm and hard-codes answers you obtained from
+        someone else, or simply via trial-and-error with the autograder).
+        
+      \item
+       When submitting to \texttt{Homework 3 Code}, upload \texttt{hw3\_q2.py}, \texttt{hw3\_q4.py}, and \texttt{hw3\_utils.py}. Additional files will be ignored.
+       
+    \end{itemize}
+        
+\begin{enumerate}[font={\Large\bfseries},left=0pt]
+
+
+\begin{Q}
+    \textbf{\Large Support Vector Machines. (25 pt)}
+    \\ \\ Recall that, for a soft-margin SVM, we assume the optimization objective is
+    \begin{equation}
+        \min_{\vw, b, \boldsymbol{\xi}}\frac{1}{2}\enVert{\vw}^2_2+C\sum_{i=1}^{N}\xi_i \quad s.t.\  y^{(i)}(\vw^{\top}\vx^{(i)} +b )\geq 1-\xi_i ,\ \xi_i \geq 0, \forall i\in\left\{1, 2, ..., N\right\}
+    \end{equation}
+
+    \begin{enumerate}
+        \item \textbf{Soft margin with hinge loss. (7 pt)}
+            \\ Use the dataset in $\mathbb{R}^2$:
+            \[
+            x^{(1)}=\begin{bmatrix}0\\0\end{bmatrix},\ y^{(1)}=+1;\quad
+            x^{(2)}=\begin{bmatrix}2\\0\end{bmatrix},\ y^{(2)}=+1;\quad
+            x^{(3)}=\begin{bmatrix}1\\1\end{bmatrix},\ y^{(3)}=-1 .
+            \]
+            For any $(\vw,b)$ define the functional margin $\gamma_i := y^{(i)}(\vw^\top x^{(i)}+b)$, the hinge loss / slack
+            $\xi_i := \max\{0,\,1-\gamma_i\}$.
+            
+            \begin{enumerate}
+              \item[(i)] With $\vw=\begin{bmatrix}1\\[1pt]0\end{bmatrix}$, $b=0$, $C=1$, compute: (2 pt)
+              \begin{itemize}
+                  \item $f(x^{(i)}):=\vw^\top x^{(i)}+b$
+                  \item $\gamma_i$ for each $x^{(i)}$,
+                  \item $\xi_i$ for each $x^{(i)}$
+                  \item and the objective value. 
+              \end{itemize}
+              \item[(ii)] With $\vw=\begin{bmatrix}1\\[1pt]-1\end{bmatrix}$, $b=0$, $C=1$, repeat the computations in (i). Which parameter choice has the smaller objective value? (2 pt)
+              \item[(iii)] Re-evaluate the objective value for both (i) and (ii) with $C=0.5$ and with $C=2$. Briefly describe how increasing $C$ and decreasing $C$ change the trade-off between margin size and training violations. (3 pt)
+            \end{enumerate}
+        \item \textbf{Importance weighted soft margin SVMs. (18 pt)} 
+        \\  You are given a training dataset $\{(x^{(i)},y^{(i)},p^{(i)})\}_{i=1}^N$ where $y^{(i)}\in\{-1,+1\}$ and $0\leq p^{(i)}\leq 1$ is the importance weight of $i$-th point.       
+        \begin{enumerate}
+            \item Write the \textbf{primal} optimization in which each example’s slack penalty is scaled by $p^{(i)}$. (3 pt)
+            \item Derive the \textbf{dual} problem. Show how the weight $p^{(i)}$ changes the feasible set for the dual variables $\alpha_i$. (6 pt)
+            \item Suppose we have three training samples with $p^{(1)}=1$, $p^{(2)}=\tfrac{1}{2}$, $p^{(3)}=0$. Suppose $C=2$, what are the feasible sets for $\alpha_1,\alpha_2,\alpha_3$? (3 pt)
+            \item We now assume that the optimization objective for this $L_2$ soft-margin SVM is%\liangyan{remove the slack variable constraint?}
+                \begin{equation}
+                    \min_{\vw, b, \boldsymbol{\xi}}\frac{1}{2}\enVert{\vw}^2_2+\frac{C}{2}\sum_{i=1}^{N}\xi_i^2 \quad s.t.\  y^{(i)}(\vw^{\top}\vx^{(i)} +b )\geq 1-\xi_i,\ \xi_i \geq 0, \forall i\in\left\{1, 2, ..., N\right\}
+                \end{equation}
+                Derive the dual problem. (6 pt)
+        \end{enumerate}    
+    \end{enumerate}
+\end{Q}
+\begin{tcolorbox}
+    Your solution here.
+\end{tcolorbox}
+
+\begin{Q}
+    \textbf{\Large Implementing Support Vector Machine. (25 pt)}
+    \begin{enumerate}
+        \item Recall the dual problems of SVM in Problem 1. We define the domain $\cC=[0, \infty]^N=\{\balpha:\alpha_i\ge0\}$ for a hard-margin SVM, and $\cC=[0,C]^N=\{\balpha:0\le\alpha_i\le C\}$ for a soft-margin SVM. We can solve this dual problem by projected gradient descent, which starts from some $\balpha_0\in\cC$ (e.g., $\boldsymbol{0}$) and updates as follows:
+        \begin{align}
+            \balpha_{t+1}=\Pi_{\cC}\sbr{\balpha_t-\eta\nabla f(\balpha_t)}.
+        \end{align}
+        Here $\Pi_{\cC}[\balpha]$ is the \emph{projection} of $\balpha$ onto $\cC$, defined as the closest point to $\balpha$ in $\cC$:
+        \begin{align}
+            \Pi_{\cC}[\balpha]:=\argmin_{\balpha'\in\cC}\|\balpha'-\balpha\|_2.
+        \end{align}
+        If $\cC$ is convex, the projection is uniquely defined.
+        With such information, in your \textbf{written submission}, \textbf{prove that}
+        \begin{align}
+            \del{\Pi_{[0,\infty)^N}[\balpha]}_i=\max\{\alpha_i,0\},\\
+            \del{\Pi_{[0,C]^N}[\balpha]}_i=\min\{\max\{0,\alpha_i\},C\}.
+        \end{align}
+        \textbf{(7 pt)}\\ \\
+        \textbf{Hint:} In this setting, since we have exactly the same domain for $\alpha_i$ in $\cC$ for all $i$s, each $\alpha_i$ can be considered independently. In this case, the minimization of $\|\balpha'-\balpha\|$ can also be considered independently for each $i$.
+        
+        \item Implement an \texttt{svm\_solver()}, using projected gradient descent formulated as above. Initialize your $\valpha$ to zeros. See the docstrings in \texttt{hw3.py} for details. \textbf{(12 pt)}
+        
+        \textbf{Remark:} In this problem, you are allowed to use the \texttt{.backward()} function in PyTorch. However, then you may have to use in-place operations like \texttt{clamp\_()}, otherwise the gradient information is destroyed.
+    
+        \textbf{Library routines:} \texttt{torch.outer, torch.clamp, torch.Tensor.backward, \\ torch.tensor.detach, with torch.no\_grad():, torch.Tensor.requires\_grad\_, \\ torch.tensor.grad.zero\_, .}
+
+        \item Implement an \texttt{svm\_predictor()}, using an optimal dual solution, the training set, and the test set. See the docstrings in \texttt{hw3.py} for details. \textbf{(6 pt)}
+
+        \textbf{Hint:} Just in this subproblem, feel free to use iterations.
+        
+        \textbf{Remark 1:} You don't need to convert the output of \texttt{svm\_predictor()} to $\pm 1$. Please just return the original output of SVM i.e., $\bm{w}^\top\bm{u}+b$ at the bottom of Lecture 11 (SVM I) Page 13.
+        
+        \textbf{Remark 2: } In Lecture 12 (SVM II) Page 12, for support vector $\vx^{(i)}$ with $\alpha_i > 0$ for hard-margin SVM, the formula $$y^{(i)} (\vw^\top\vx^{(i)}+b)-1=0$$ holds. In this way, you can compute $b$. Similarly, you could obtain $b$ for soft-margin SVM.
+        
+        Theoretically, any support vector $\vx^{(i)}$ can obtain the same $b$. However, due to the precision limit, it might obtain different values of $b$ in the implementation. So in order to deal this, in this problem, you are required to \textbf{use the support vector $\vx^{(i)}$ with the minimum $\alpha_i$ among all support vectors} to compute $b$ with the formula above. It's guaranteed that there will be exactly one $i$ with minimum $\alpha_i$ (i.e. no ties) in the test cases on GradeScope. 
+        
+        \textbf{Remark 3: }Note that you don't need to know the value of $C$ in soft-margin SVM (also not passed as a parameter), since $C$ must be the maximum value of $\valpha$, and will be larger than the suggested value.
+    \end{enumerate} 
+\end{Q}
+\begin{tcolorbox}
+    Your solution here.
+\end{tcolorbox}
+
+\begin{Q}
+    \textbf{\Large Linear Regression and ERM. (25 pt)}
+    \begin{enumerate}
+        \item \textbf{Robustness of Linear Regression.} Consider a 1-dimensional linear regression problem with a dataset containing $N$ data points $\{({x}^{(i)}, y^{(i)})\}^{N}_{i=1}$,
+          where ${x}^{(i)} \in \mathbb{R}^1$. The loss function is given by:
+          $$\ell({\bf{w}}) = \sum_{i=1}^N(y^{(i)} - w_1^\top {x}^{(i)} - w_0)^2$$
+          where ${\bf w} = [w_1, w_0]^\top$, $w_1, w_0 \in \R^1$ are real numbers. Let's also fix $w_0 = 1$.
+        \begin{enumerate}
+             \item Given a dataset $\{({x}^{(i)}, y^{(i)})\}^{5}_{i=1} = \{(1,2), (2,3), (3,6), (4,7), (5,10)\}$, solve for $w_1$. \textbf{(2 pt)}
+             \item Give this dataset an unreasonable outlier $\{({x}^{(i)}, y^{(i)})\}^{6}_{i=1} = \{(1,2), (2,3), (3,6), (4,7), (5,10), (6,180)\}$, solve for $w_1$. \textbf{(2 pt)}
+             \item Let's use $L_1$ norm for the loss function $\ell({\bf{w}}) = \sum_{i=1}^N\|y^{(i)} - w_1^\top {x}^{(i)} - w_0\|_1$. Given the dataset with outlier $\{({x}^{(i)}, y^{(i)})\}^{6}_{i=1} = \{(1,2), (2,3), (3,6), (4,7), (5,10), (6,180)\}$, solve for $w_1$. \textbf{(2 pt)}
+         \end{enumerate}
+          
+         
+    
+          \item \textbf{Lasso Regression.} Given a dataset containing $N$ data points $\{(\bm{x}^{(i)}, y^{(i)})\}^{N}_{i=1}$,
+          where $\bm{x}^{(i)} \in \mathbb{R}^d$ and $y^{(i)}\in\mathbb{R}$. Let $\bm{X}$ denote an $N \times d$ matrix where rows are training points, $\bm{y}$ denotes an $ N\times 1$ vector corresponding output value:
+          $${\bm y}=\begin{bmatrix}y^{(1)}\\\vdots\\y^{(N)}\end{bmatrix},\ \bm{X} = \begin{bmatrix}{{\bm x}^{(1)}}^\top \\\vdots\\{{\bm x}^{(N)}}^\top\end{bmatrix}$$
+          
+          We assume the bias term $w_0$ to be $0$. 
+          
+          
+          In Lasso Regression, we want to reduce the complexity of $\bm{w}$ by shrinking less important feature coefficients to zero. Specifically, we want to find the optimal vector $\bm{w}^*$, such that:
+          $$
+            \bm{w}^*=\arg\min_{\bm{w}}\|\bm{y}-\bm{X}\bm{w}\|_2^2+\lambda\|\bm{w}\|_1,
+          $$
+          where $\lambda>0$.
+          To make analysis easier, let's assume training data has this property:
+          $$
+            \bm{X}^T\bm{X}=\bm{I}
+          $$
+          \begin{enumerate}
+             \item Show that under the assumption of the dataset, $\bm{w}^*_i$ is only related to $\bm{X_{\cdot i}}, \bm{y}$ and $\lambda$, where $\bm{X_{\cdot i}}$ is the $i$th column of $\bm{X}$. \textbf{(2 pt)}
+             \item Assume that $\bm{w}^*_i>0$, what is the value of $\bm{w}^*_i$ in this case? \textbf{(2 pt)}
+             \item Assume that $\bm{w}^*_i<0$, what is the value of $\bm{w}^*_i$ in this case? \textbf{(2 pt)}
+             \item From (ii.) and (iii.), what is the condition for $\bm{w}^*_i$ to be zero? How can you interpret that condition? \textbf{(3 pt)}
+          \end{enumerate}
+    
+         
+    
+        \item \textbf{Ridge Regression.} In this problem, we will derive the explicit solution to the Ridge Regression problem, which minimizes the mean squared error with a regularization term that penalizes the squared length of the coefficient vector. Specifically, we fix a regularization parameter $\lambda > 0$, and aim to solve the following optimization problem:
+        $$
+        \bm{w}^*, w_0^* = \argmin_{\bm{w}\in \mathbb{R}^d, w_0\in \mathbb{R}^1} \frac{1}{N}\sum_{i=1}^N \left( y^{(i)} - \bm{w}^T \bm{x}^{(i)} - w_0 \right)^2 + \lambda \|\bm{w}\|_2^2.
+        $$
+        
+        To simplify the analysis, we assume that both the response variable ${y}$ and the feature vector $\bm{x}$ are centered, meaning:
+        $$
+        \sum_{i=1}^N y^{(i)} = 0, \quad \sum_{i=1}^N \bm{x}^{(i)} = 0.
+        $$
+        
+        \begin{enumerate}
+            \item \textbf{Warm-up: Ridge Regression for $d = 1$.} \\
+            In this case, $\bm{x}$ is a scalar (one-dimensional). Write out the explicit solution for $\bm{w}^*$  and $w_0^*$  in this setting. \textbf{(5 pt)}
+            
+            \item \textbf{General case: Ridge Regression for $d > 1$.} \\
+            The multivariate version of the problem can be written in matrix form as follows:
+            $$
+            \bm{w}^*,w_0^* = \argmin_{\bm{w} \in \mathbb{R}^d, w_0\in \mathbb{R}^1} \frac{1}{N} \|\bm{y} - \bm{X} \bm{w} - w_0 \bm{1} \|_2^2 + \lambda \|\bm{w}\|_2^2,
+            $$
+            where $\bm{X} \in \mathbb{R}^{N \times d}$ is a matrix that rows are training points, $\bm{y} \in \mathbb{R}^N$ corresponds to values, and $\bm{1} \in \mathbb{R}^N$ is a vector of ones. Derive the explicit solution for $\bm{w}^*$ and $w_0^*$ in this setting. \textbf{(5 pt)}
+        \end{enumerate}
+         
+    \end{enumerate}
+\end{Q}
+ \begin{tcolorbox}
+    Your solution here.
+\end{tcolorbox}
+
+\begin{Q}
+    \textbf{\Large Implementing Linear Regression. (25 pt)}
+    
+        This assignment guides you through building, refining, and optimizing a \textbf{Linear Regression} pipeline: OLS, Ridge (L2), and Lasso via ISTA with a log-transform for skewed targets. Complete the \texttt{TODO} sections in the provided Python code. You can either use the Jupyter Notebook (\texttt{hw3\_q4.ipynb}) or the Python file (\texttt{hw3\_q4.py}). If you are not familiar with a particular term, please see code for more details.
+
+    \textbf{Submission Requirements}: If you use the Jupyter notebook, please convert it to \texttt{hw3\_q4.py} and submit it to Gradescope (along with any helper file such as \texttt{hw3\_utils.py} if you used one). Please ensure your code runs end-to-end.
+    
+    \begin{enumerate}
+    \item{Data Preparation \& OLS Baseline \textbf{(6 pt)}
+    \begin{enumerate}
+    \item \textbf{Dataset \& Split}: Load the Ames Housing dataset from OpenML (\texttt{name="house\_prices"}). Split into \textbf{train/val/test = 70/15/15} with a fixed \texttt{random\_state}.
+    \item \textbf{Preprocessing Pipeline}:
+    \begin{enumerate}
+    \item Identify numeric vs. categorical columns from the \emph{training} dataframe.
+    \item Impute \textbf{numeric} with train \textbf{median} and \textbf{categorical} with train \textbf{mode} (apply the same stats to val/test).
+    \item Align val/test features to train by using z-scores.
+    \end{enumerate}
+    \item \textbf{OLS (Normal Equation)}: Implement ($\mathbf{w}*{\text{OLS}} = \mathrm{pinv}(X^\top X)X^\top y$). Evaluate on the test set and report \textbf{MSE} and \textbf{RMSE}.
+    \end{enumerate}
+    }
+    \item{Ridge Regression (L2 / MAP) \textbf{(6 pt)}
+    \begin{enumerate}
+    \item \textbf{Closed-Form with Unpenalized Bias}: Implement
+    [
+    $\mathbf{w}*{\text{ridge}} = (X^\top X + \lambda I)^{-1} X^\top y,\quad \text{with } I_{00}=0$
+    ]
+    so the bias term is not penalized.
+    
+    \end{enumerate}
+    }
+    \item{Lasso \textbf{(7 pt)}
+    \begin{enumerate}
+    
+    \item \textbf{\href{https://nikopj.github.io/blog/understanding-ista/}{ISTA Update}}: For the objective function $J(w) = \frac{1}{n}\|Xw-y\|_2^2 + \lambda\|w_{1:}\|_1$ (no penalty on bias), implement the gradient update:
+    $w_0^{(k+1)} = w_0^{(k)} - \alpha \cdot \left( \frac{2}{n}X^\top(Xw^{(k)}-y) \right)_0$.   
+    \item Include a simple convergence check for a sufficient iteration budget (early stopping). 
+    
+    \end{enumerate}
+    }
+    \item{Log-Transform \textbf{(6 pt)}\\
+    A \textbf{log transformation} is a common data preprocessing technique that replaces each value $x$ in a dataset with its logarithm, $log(x)$. \textbf{Skewness} is a statistical measure of a distribution's asymmetry; a right-skewed distribution, for example, has a long tail of high-value outliers. In linear regression, applying a log transform to a skewed variable can make its distribution more symmetric, which helps to stabilize the variance of the errors (residuals) and better satisfy the model's core assumptions. We then need the Duan smearing estimator to correct for the systematic underestimation, or bias, that occurs when back-transforming predictions from the log scale into their original, linear scale.
+    \begin{enumerate}
+    \item \textbf{Motivation Plot}: On the \textbf{training} target, plot histograms of (\texttt{SalePrice}) and ($\log(1+\texttt{SalePrice})$).
+    \item \textbf{Log-Target Experiments}: Fit \textbf{Ridge} and \textbf{Lasso (ISTA)} with the ($\log(1+y)$) target. Back-transform to dollars using \textbf{Duan’s smearing}: compute the smearing factor ($s=\mathbb{E}[\exp(e)] = \frac{1}{n} \sum_{i=1}^{n} \exp(e_i)$) from log-residuals on train. Log-residuals are the model's errors calculated on the logarithmic scale, representing the difference between the actual log-transformed target values and the predicted log-transformed values. Then predict ($\widehat y = (e^{X_{\text{test}}w} - 1) \cdot \text{s})$. 
+    \end{enumerate}
+    }
+    
+    \end{enumerate}
+
+\end{Q}
+
+   
+    \end{enumerate}
+\end{document}

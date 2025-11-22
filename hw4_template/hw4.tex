@@ -1,0 +1,450 @@
+\documentclass{article}
+    \usepackage[margin=1in]{geometry}
+    \usepackage{hyperref}
+    \usepackage{amsmath,amsfonts,amssymb,amsthm,commath,dsfont}
+    \usepackage{bm}
+    \usepackage{enumitem}
+    \usepackage{framed}
+    \usepackage{xspace}
+    \usepackage{microtype}
+    \usepackage{float}
+    \usepackage[round]{natbib}
+    \usepackage{cleveref}
+    \usepackage[dvipsnames]{xcolor}
+    \usepackage{graphicx}
+    \usepackage{listings}
+    \usepackage[breakable]{tcolorbox}
+    \tcbset{breakable}
+    \usepackage{mathtools}
+    \usepackage{autonum}
+    \usepackage{comment}
+    \usepackage{hyperref}
+    \usepackage{amsmath}
+
+    \def\b1{\boldsymbol{1}}
+    \newcommand{\colbar}{\rule[-3mm]{.3mm}{1.5em}}
+    \newcommand{\rowbar}{\rule[.5ex]{1.5em}{.3mm}}
+    \newcommand{\francis}[1]{{\color{blue}#1}}
+    \DeclareMathOperator{\rank}{rank}
+    \def\balpha{\boldsymbol{\alpha}}
+    \newcommand{\yb}[1]{{\color{blue} #1}}
+
+    % following loops. stolen from djhsu
+    \def\ddefloop#1{\ifx\ddefloop#1\else\ddef{#1}\expandafter\ddefloop\fi}
+    % \bbA, \bbB, ...
+    \def\ddef#1{\expandafter\def\csname bb#1\endcsname{\ensuremath{\mathbb{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+    
+    % \cA, \cB, ...
+    \def\ddef#1{\expandafter\def\csname c#1\endcsname{\ensuremath{\mathcal{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+    
+    % \vA, \vB, ..., \va, \vb, ...
+    \def\ddef#1{\expandafter\def\csname v#1\endcsname{\ensuremath{\boldsymbol{#1}}}}
+    \ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\ddefloop
+    
+    % \valpha, \vbeta, ...,  \vGamma, \vDelta, ...,
+    \def\ddef#1{\expandafter\def\csname v#1\endcsname{\ensuremath{\boldsymbol{\csname #1\endcsname}}}}
+    \ddefloop {alpha}{beta}{gamma}{delta}{epsilon}{varepsilon}{zeta}{eta}{theta}{vartheta}{iota}{kappa}{lambda}{mu}{nu}{xi}{pi}{varpi}{rho}{varrho}{sigma}{varsigma}{tau}{upsilon}{phi}{varphi}{chi}{psi}{omega}{Gamma}{Delta}{Theta}{Lambda}{Xi}{Pi}{Sigma}{varSigma}{Upsilon}{Phi}{Psi}{Omega}{ell}\ddefloop
+
+    \newcommand\T{{\scriptscriptstyle\mathsf{T}}}
+    \def\diag{\textup{diag}}
+    
+    \DeclareMathOperator*{\argmin}{arg\,min}
+    \DeclareMathOperator*{\argmax}{arg\,max}
+
+    \def\SPAN{\textup{span}}
+    \def\tu{\textup{u}}
+    \def\R{\mathbb{R}}
+    \def\E{\mathbb{E}}
+    \def\Z{\mathbb{Z}}
+    \def\be{\mathbf{e}}
+    \def\nf{\nabla f}
+    \def\veps{\varepsilon}
+    \def\cl{\textup{cl}}
+    \def\inte{\textup{int}}
+    \def\dom{\textup{dom}}
+    \def\Rad{\textup{Rad}}
+    \def\lsq{\ell_{\textup{sq}}}
+    \def\hcR{\widehat{\cR}}
+    \def\hcRl{\hcR_\ell}
+    \def\cRl{\cR_\ell}
+    \def\hcE{\widehat{\cE}}
+    \def\cEl{\cE_\ell}
+    \def\hcEl{\hcE_\ell}
+    \def\eps{\epsilon}
+    \def\1{\mathds{1}}
+    \newcommand{\red}[1]{{\color{red} #1}}
+    \newcommand{\blue}[1]{{\color{blue} #1}}
+    \def\srelu{\sigma_{\textup{r}}}
+    \def\vsrelu{\vec{\sigma_{\textup{r}}}}
+    \def\vol{\textup{vol}}
+
+    \newtheorem{fact}{Fact}
+    \newtheorem{lemma}{Lemma}
+    \newtheorem{claim}{Claim}
+    \newtheorem{proposition}{Proposition}
+    \newtheorem{theorem}{Theorem}
+    \newtheorem{corollary}{Corollary}
+    \newtheorem{condition}{Condition}
+    \theoremstyle{definition}
+    \newtheorem{definition}{Definition}
+    \theoremstyle{remark}
+    \newtheorem{remark}{Remark}
+    \newtheorem{example}{Example}
+            \newcommand{\bx}{{\boldsymbol x}}
+            \newcommand{\ba}{{\boldsymbol a}}
+            \newcommand{\bb}{{\boldsymbol b}}
+    % mathcal
+    \newcommand{\Ac}{\mathcal{A}}
+    \newcommand{\Bc}{\mathcal{B}}
+    \newcommand{\Cc}{\mathcal{C}}
+    \newcommand{\Dc}{\mathcal{D}}
+    \newcommand{\Ec}{\mathcal{E}}
+    \newcommand{\Fc}{\mathcal{F}}
+    \newcommand{\Gc}{\mathcal{G}}
+    \newcommand{\Hc}{\mathcal{H}}
+    \newcommand{\Ic}{\mathcal{I}}
+    \newcommand{\Jc}{\mathcal{J}}
+    \newcommand{\Kc}{\mathcal{K}}
+    \newcommand{\Lc}{\mathcal{L}}
+    \newcommand{\Mc}{\mathcal{M}}
+    \newcommand{\Nc}{\mathcal{N}}
+    \newcommand{\Oc}{\mathcal{O}}
+    \newcommand{\Pc}{\mathcal{P}}
+    \newcommand{\Qc}{\mathcal{Q}}
+    \newcommand{\Rc}{\mathcal{R}}
+    \newcommand{\Sc}{\mathcal{S}}
+    \newcommand{\Tc}{\mathcal{T}}
+    \newcommand{\Uc}{\mathcal{U}}
+    \newcommand{\Vc}{\mathcal{V}}
+    \newcommand{\Wc}{\mathcal{W}}
+    \newcommand{\Xc}{\mathcal{X}}
+    \newcommand{\Yc}{\mathcal{Y}}
+    \newcommand{\Zc}{\mathcal{Z}}
+    
+    % mathbb
+    \newcommand{\bxup}[1]{{\bx}^{({#1})}}
+    \newcommand{\Ab}{\mathbb{A}}
+    \newcommand{\Bb}{\mathbb{B}}
+    \newcommand{\Cb}{\mathbb{C}}
+    \newcommand{\Db}{\mathbb{D}}
+    \newcommand{\Eb}{\mathbb{E}}
+    \newcommand{\Fb}{\mathbb{F}}
+    \newcommand{\Gb}{\mathbb{G}}
+    \newcommand{\Hb}{\mathbb{H}}
+    \newcommand{\Ib}{\mathbb{I}}
+    \newcommand{\Jb}{\mathbb{J}}
+    \newcommand{\Kb}{\mathbb{K}}
+    \newcommand{\Lb}{\mathbb{L}}
+    \newcommand{\Mb}{\mathbb{M}}
+    \newcommand{\Nb}{\mathbb{N}}
+    \newcommand{\Ob}{\mathbb{O}}
+    \newcommand{\Pb}{\mathbb{P}}
+    \newcommand{\Qb}{\mathbb{Q}}
+    \newcommand{\Rb}{\mathbb{R}}
+    \newcommand{\Sb}{\mathbb{S}}
+    \newcommand{\Tb}{\mathbb{T}}
+    \newcommand{\Ub}{\mathbb{U}}
+    \newcommand{\Vb}{\mathbb{V}}
+    \newcommand{\Wb}{\mathbb{W}}
+    \newcommand{\Xb}{\mathbb{X}}
+    \newcommand{\Yb}{\mathbb{Y}}
+    \newcommand{\Zb}{\mathbb{Z}}
+    
+    % mathbf lowercase
+    \newcommand{\av}{\mathbf{a}}
+    \newcommand{\bv}{\mathbf{b}}
+    \newcommand{\cv}{\mathbf{c}}
+    \newcommand{\dv}{\mathbf{d}}
+    \newcommand{\ev}{\mathbf{e}}
+    \newcommand{\fv}{\mathbf{f}}
+    \newcommand{\gv}{\mathbf{g}}
+    \newcommand{\hv}{\mathbf{h}}
+    \newcommand{\iv}{\mathbf{i}}
+    \newcommand{\jv}{\mathbf{j}}
+    \newcommand{\kv}{\mathbf{k}}
+    \newcommand{\lv}{\mathbf{l}}
+    \newcommand{\mv}{\mathbf{m}}
+    \newcommand{\nv}{\mathbf{n}}
+    \newcommand{\ov}{\mathbf{o}}
+    \newcommand{\pv}{\mathbf{p}}
+    \newcommand{\qv}{\mathbf{q}}
+    \newcommand{\rv}{\mathbf{r}}
+    \newcommand{\sv}{\mathbf{s}}
+    \newcommand{\tv}{\mathbf{t}}
+    \newcommand{\uv}{\mathbf{u}}
+    % \newcommand{\vv}{\mathbf{v}}
+    \newcommand{\wv}{\mathbf{w}}
+    \newcommand{\xv}{\mathbf{x}}
+    \newcommand{\yv}{\mathbf{y}}
+    \newcommand{\zv}{\mathbf{z}}
+    
+    % mathbf uppercase
+    \newcommand{\Av}{\mathbf{A}}
+    \newcommand{\Bv}{\mathbf{B}}
+    \newcommand{\Cv}{\mathbf{C}}
+    \newcommand{\Dv}{\mathbf{D}}
+    \newcommand{\Ev}{\mathbf{E}}
+    \newcommand{\Fv}{\mathbf{F}}
+    \newcommand{\Gv}{\mathbf{G}}
+    \newcommand{\Hv}{\mathbf{H}}
+    \newcommand{\Iv}{\mathbf{I}}
+    \newcommand{\Jv}{\mathbf{J}}
+    \newcommand{\Kv}{\mathbf{K}}
+    \newcommand{\Lv}{\mathbf{L}}
+    \newcommand{\Mv}{\mathbf{M}}
+    \newcommand{\Nv}{\mathbf{N}}
+    \newcommand{\Ov}{\mathbf{O}}
+    \newcommand{\Pv}{\mathbf{P}}
+    \newcommand{\Qv}{\mathbf{Q}}
+    \newcommand{\Rv}{\mathbf{R}}
+    \newcommand{\Sv}{\mathbf{S}}
+    \newcommand{\Tv}{\mathbf{T}}
+    \newcommand{\Uv}{\mathbf{U}}
+    \newcommand{\Vv}{\mathbf{V}}
+    \newcommand{\Wv}{\mathbf{W}}
+    \newcommand{\Xv}{\mathbf{X}}
+    \newcommand{\Yv}{\mathbf{Y}}
+    \newcommand{\Zv}{\mathbf{Z}}
+    
+    % bold greek lowercase
+    \newcommand{\alphav     }{\boldsymbol \alpha     }
+    \newcommand{\betav      }{\boldsymbol \beta      }
+    \newcommand{\gammav     }{\boldsymbol \gamma     }
+    \newcommand{\deltav     }{\boldsymbol \delta     }
+    \newcommand{\epsilonv   }{\boldsymbol \epsilon   }
+    \newcommand{\varepsilonv}{\boldsymbol \varepsilon}
+    \newcommand{\zetav      }{\boldsymbol \zeta      }
+    \newcommand{\etav       }{\boldsymbol \eta       }
+    \newcommand{\thetav     }{\boldsymbol \theta     }
+    \newcommand{\varthetav  }{\boldsymbol \vartheta  }
+    \newcommand{\iotav      }{\boldsymbol \iota      }
+    % \newcommand{\kv     }{\boldsymbol k     }
+    \newcommand{\varkappav  }{\boldsymbol \varkappa  }
+    \newcommand{\lambdav    }{\boldsymbol \lambda    }
+    \newcommand{\muv        }{\boldsymbol \mu        }
+    \newcommand{\nuv        }{\boldsymbol \nu        }
+    \newcommand{\xiv        }{\boldsymbol \xi        }
+    \newcommand{\omicronv   }{\boldsymbol \omicron   }
+    \newcommand{\piv        }{\boldsymbol \pi        }
+    \newcommand{\varpiv     }{\boldsymbol \varpi     }
+    \newcommand{\rhov       }{\boldsymbol \rho       }
+    \newcommand{\varrhov    }{\boldsymbol \varrho    }
+    \newcommand{\sigmav     }{\boldsymbol \sigma     }
+    \newcommand{\varsigmav  }{\boldsymbol \varsigma  }
+    \newcommand{\tauv       }{\boldsymbol \tau       }
+    \newcommand{\upsilonv   }{\boldsymbol \upsilon   }
+    \newcommand{\phiv       }{\boldsymbol \phi       }
+    \newcommand{\varphiv    }{\boldsymbol \varphi    }
+    \newcommand{\chiv       }{\boldsymbol \chi       }
+    \newcommand{\psiv       }{\boldsymbol \psi       }
+    \newcommand{\omegav     }{\boldsymbol \omega     }
+    
+    % bold greek uppercase
+    \newcommand{\Gammav     }{\boldsymbol \Gamma     }
+    \newcommand{\Deltav     }{\boldsymbol \Delta     }
+    \newcommand{\Thetav     }{\boldsymbol \Theta     }
+    \newcommand{\Lambdav    }{\boldsymbol \Lambda    }
+    \newcommand{\Xiv        }{\boldsymbol \Xi        }
+    \newcommand{\Piv        }{\boldsymbol \Pi        }
+    \newcommand{\Sigmav     }{\boldsymbol \Sigma     }
+    \newcommand{\Upsilonv   }{\boldsymbol \Upsilon   }
+    \newcommand{\Phiv       }{\boldsymbol \Phi       }
+    \newcommand{\Psiv       }{\boldsymbol \Psi       }
+    \newcommand{\Omegav     }{\boldsymbol \Omega     }
+
+
+    \newenvironment{Q}
+    {%
+      \clearpage
+      \item
+    }
+    {%
+      \phantom{s}
+      \bigskip
+      \textbf{Solution.}
+    }
+
+    \def\hw{HW4}
+    \def\hwcode{HW4 - Programming Assignment}
+
+
+    \title{CS 446 / ECE 449 --- Homework 4}
+    \author{\emph{your NetID here}}
+    % \date{Version 1.0}
+    \date{}
+
+    \begin{document}
+        \maketitle
+
+        \noindent\textbf{Instructions.}
+        \begin{itemize}
+          \item
+            Homework is due \textbf{Friday, Oct 31}, at 11:59 \textbf{PM} CST; you have \textbf{3} late days in total for \textbf{all Homeworks}.
+        
+          \item
+            Everyone must submit individually at Gradescope under \texttt{\hw} and \texttt{\hwcode}.
+        
+          \item
+            The ``written'' submission at \texttt{\hw} \textbf{must be typed}, and submitted in any format gradescope accepts (to be safe, submit a PDF).  You may use \LaTeX, markdown, google docs, MS word, whatever you like; but it must be typed!
+        
+          \item
+            When submitting at \texttt{\hw}, Gradescope will ask you to \textbf{mark out boxes around each of your answers}; please do this precisely!
+        
+          \item
+            Please make sure your NetID is clear and large on the first page of the homework.
+        
+          \item
+            Your solution \textbf{must} be written in your own words.
+            Please see the course webpage for full \textbf{academic integrity} information.
+            You should cite any external reference you use.
+        
+          \item
+            We reserve the right to reduce the auto-graded score for
+            \texttt{\hwcode} if we detect funny business (e.g., your solution
+            lacks any algorithm and hard-codes answers you obtained from
+            someone else, or simply via trial-and-error with the autograder).
+            
+          \item
+           When submitting to \texttt{\hwcode}, only upload \texttt{hw4\_q3.py} and \texttt{hw4\_utils.py}. Additional files will be ignored.
+           
+        \end{itemize}
+        
+\begin{enumerate}[font={\Large\bfseries},left=0pt]
+
+
+\begin{Q}
+
+\textbf{\Large Bias-Variance in Ridge Regression. (23 pt)}
+
+Recall from the lecture, the Expected Test Error can be decomposed as follows:
+
+$$
+\mathbb{E}_{x, y, \mathcal{D}}[(h_{\mathcal{D}}(x) - y )^2] = \underbrace{\mathbb{E}_{x, \mathcal{D}}[(h_{\mathcal{D}}(x) - \bar{h}(x))^2]}_{\text{Variance}} + \underbrace{\mathbb{E}_{x}[(\bar{h}(x)-\bar{y}(x))^2]}_{\text{Bias}^2} + \underbrace{\mathbb{E}_{x, y}[(\bar{y}(x)-y)^2]}_{\text{Noise}}
+$$
+
+Consider fixed (non-random) scalar features $\{x^{(i)}\}_{i=1}^N$. The labels are generated as $y^{(i)}=w^* x^{(i)}+\epsilon^{(i)}$ where $w^{*}$ is fixed and $\epsilon^{(i)}$ are i.i.d noises from Gaussian distribution $N(0,\sigma^2)$. Note that $w^{*}$ is unknown and $\epsilon^{(i)}$ is independent of $x^{(i)}$. Therefore, we can define the observed dataset as $\mathcal{D} = \{x^{(i)}, y^{(i)}\}_{i=1}^N$.  
+
+Ridge regression optimizes the following objective for a dataset $\mathcal{D}$ with $\lambda \geq 0$:
+
+$$
+w_{\mathcal{D}} = \argmin_w \frac{1}{N} \sum_{i=1}^N (wx^{(i)}-y^{(i)})^2 + \lambda w^2
+$$
+
+For simplicity, the intercept term is omitted from this problem. The closed-form solution of ridge regression is given as:
+
+$$
+w_{\mathcal{D}} = \frac{\frac{1}{N}\sum_{i=1}^N x^{(i)} y^{(i)}}{\lambda + \frac{1}{N} \sum_{i=1}^N x^{(i)2}}
+$$
+
+\begin{enumerate}
+    \item Consider the expected label $\bar{{y}}(x) = \mathbb{E}_{y|x}[y]$. Show that $\bar{{y}}(x) = w^{*}x$. Similarly, consider the noise term: 
+    $$
+    \text{Noise} = \frac{1}{N} \sum_{i=1}^N \mathbb{E}_{y^{(i)}|x^{(i)}}[(\bar{y}(x^{(i)})-y^{(i)})^2]
+    $$ 
+    Show that $\text{Noise}=\sigma^2$. (3 pt)
+    
+    \item From the lecture, given a machine learning algorithm $\mathcal{A}$, then $h_{\mathcal{D}}=\mathcal{A}(\mathcal{D})$. For our case, $h_{\mathcal{D}}(x) = w_{\mathcal{D}}x$. Consider the expected predictor $\bar{h} = \mathbb{E}_{\mathcal{D}\sim P^{N}} \left[h_{\mathcal{D}}\right]$, then in our case $\bar{w} =  \mathbb{E}_{\mathcal{D}} [w_{\mathcal{D}}]$. Let $s^2 = \frac{1}{N}\sum_{i=1}^N x^{(i)2}$, show that:
+    $$
+    \bar{w} = \frac{s^2}{\lambda + s^2} w^{*}
+    $$
+    (3 pt)
+    
+    \item Consider the squared bias term:
+
+    $$
+    \text{Bias}^2 = \frac{1}{N} \sum_{i=1}^N (\bar{w}x^{(i)} - \bar{y}(x^{(i)}))^2
+    $$
+    
+    Show that:
+    
+    $$
+    \text{Bias}^2 = \left( \frac{\lambda}{\lambda + s^2}\right)^2 w^{*2} s^2
+    $$
+
+    (3 pt)
+
+    \item Consider the variance term:
+
+    $$
+    \text{Variance} = \frac{1}{N} \sum_{i=1}^N \mathbb{E}_{\mathcal{D}} \left[(w_{\mathcal{D}}x^{(i)} - \mathbb{E}_{\mathcal{D}}[w_{\mathcal{D}} x^{(i)}])^2\right]
+    $$
+    
+    Show that:
+    
+    $$
+    \text{Variance} = \frac{s^4 \sigma^2}{N(\lambda + s^2)^2}
+    $$
+
+    (5 pt)
+
+    \item What happens to the $\text{Bias}^2$ and $\text{Variance}$ term when $\lambda \to 0$ and $\lambda \to \infty$. Your answer should demonstrate that the bias and variance are monotonic with respect to $\lambda$, but in different directions. Therefore, changing $\lambda$ controls the trade-offs. In practice, since we don't know $w^*$ and the true distribution of $\epsilon$, we cannot infer the optimal value of $\lambda$. Therefore, we use model selection to determine the best value for $\lambda$. (3 pt)
+
+    \item Alternatively, we can consider an equivalent form of ridge regression:
+
+    $$
+    w_{\mathcal{D}} =\argmin_w \frac{1}{N} \sum_{i=1}^N (wx^{(i)}-y^{(i)})^2 \quad \text{so that} \quad w^2 \leq R
+    $$
+    
+    The regularization constraint forces the weight $w$ to be inside a ball around the origin with radius $\sqrt{R}$. Use the triangle inequality to show that:
+    
+    $$|w_{\mathcal{D}} - \bar{w}|^2 \leq 4R$$
+    
+    From there, we can see that the maximum Euclidean distance between any two points in the ball can at most be $2\sqrt{R}$. (3 pt)
+
+    \item Show that ridge regression bounds the variance by $4Rs^2$
+
+    $$
+    \text{Variance} \leq 4Rs^2
+    $$
+
+    Note that this bound does not depend on $w^*$ or $\epsilon$, but it can be loose compared to the actual value of variance. (3 pt)
+\end{enumerate}
+
+\end{Q}
+
+\begin{Q}
+\textbf{\Large Optimal Classifier under Squared Loss. \textbf{(12 pt)}}
+
+Let $h_D(\boldsymbol{x})$ be a predictor trained on a dataset $D$, which maps an input feature vector $\boldsymbol{x}\in \mathbb{R}^d$ to a predicted output. The output variable is denoted by $y\in\mathbb{R}$.
+
+Consider the expected squared error loss, which measures the performance of our predictor. This expectation is taken over the joint distribution $P$ of input data $\boldsymbol{x}$ and the true labels $y$, and distribution of dataset $D$ samples from $P^N$, where $D$ has $N$ data points:
+$$L = E_{(\boldsymbol{x}, y)\sim P, D\sim P^N}\left[(h_D(\boldsymbol{x}) - y)^2\right]$$
+Your task is to:
+\begin{enumerate}
+    \item \textbf{Find the Optimal Classifier}: Derive the predictor $h_{opt}(\boldsymbol{x})$ that minimizes this expected loss. Note that the optimal predictor should not be dependent on any specific dataset $D$. (6 pt) \\ 
+    \textit{Hint:} One route you can take is applying the law of total expectation and minimizing the inner expectation for a fixed classifier $h_D(\boldsymbol{x})$.
+    \item \textbf{Find the Optimal Error Rate}: Derive the minium achievable error, or irreducible error, after you derive the optimal classifier. (6 pt)
+\end{enumerate}
+\end{Q}
+
+\begin{Q}
+\textbf{\Large Model Selection. \textbf{(19 pt)}} 
+\\ \\ In this problem, you will implement a  model selection pipeline using k-fold cross-validation to find the best hyper-parameters for polynomial regression with regularization. You can see more detailed instructions in the code file \texttt{hw4\_q3.py}. \\ \\
+\textbf{Submission Instruction} If you want to implement any helper function of your own, please make sure you either put it directly in \texttt{hw4\_q3.py} or put them into \texttt{hw4\_utils.py} and submit \texttt{hw4\_utils.py} with \texttt{hw4\_q3.py} to Gradescope!
+
+\begin{enumerate}
+    \item \textbf{K-Fold Cross-Validation (8 pt)}\\
+    Implement \texttt{cross\_validate\_model(X, y, model, k\_folds)} that
+    \begin{itemize}
+        \item Splits the data into $k$ folds using \texttt{KFold} with \texttt{shuffle=True} and \texttt{random\_state=42}
+        \item For each fold, trains the model on $k-1$ folds and evaluates on the remaining fold
+        \item Returns the mean and standard deviation of validation mean squared error across all folds
+    \end{itemize}
+    \textbf{Remark 1:} For \texttt{model}, you can train the \texttt{model} by calling \texttt{model.fit(X,y)} on data \texttt{(X,y)}. In addition, you can call \texttt{model.predict(X)} to obtain the prediction from \texttt{model}. \\ 
+    \textbf{Remark 2:} For each iteration during k-fold cross validation, please make sure you make a copy of \texttt{model} by \texttt{model\_copy = deepcopy(model)}  and then train \texttt{model\_copy} instead of \texttt{model}. Otherwise, you will be training a model from previous iteration.\\
+    \item \textbf{Model Selection (11 pt)} \\
+    Implement \texttt{select\_best\_model(X\_train, y\_train)} that sweeps through different polynomial degrees and regularization strengths (for Ridge and Lasso regression) to perform k-fold cross validation with $k=5$. The function should return the model with lowest cross-validation error. \\
+    \textbf{Remark 1:} You can use \texttt{LinearRegression()} to initialize the Linear Regression model.\\
+    \textbf{Remark 2:} You can use \texttt{Ridge(alpha=alpha, random\_state=42)} to initialize the Ridge Regression model. \\ 
+    \textbf{Remark 3:} You can use \texttt{Lasso(alpha=alpha, random\_state=42, max\_iter=2000)} to initialize the Lasso Regression model. \\
+    
+\end{enumerate}
+
+\end{Q}
+
+   
+    \end{enumerate}
+
+\end{document}
